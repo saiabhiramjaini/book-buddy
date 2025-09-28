@@ -1,0 +1,37 @@
+name: Build Succeeds on Main
+
+on :
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'server/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./server
+
+      - name: Generate Drizzle
+        run: npx drizzle-kit generate
+        working-directory: ./server
+
+      - name: Build
+        run: npm run build
+        working-directory: ./server
