@@ -42,9 +42,11 @@ jobs:
             sudo docker pull saiabhiramjaini/book-buddy-server:latest
             sudo docker stop book-buddy-server || true
             sudo docker rm book-buddy-server || true
-            sudo docker run -d -p 3000:3000 \
+            sudo docker run -d \
+              -p 3000:3000 \
               -e PORT=${{ secrets.ENV_PORT }} \
-              -e DATABASE_URL=${{ secrets.ENV_DATABASE_URL }} \
-              -e CLIENT_URL=${{ secrets.ENV_CLIENT_URL }} \
-              -e JWT_SECRET=${{ secrets.ENV_JWT_SECRET }} \
-              --name book-buddy-server saiabhiramjaini/book-buddy-server:latest
+              -e DATABASE_URL="${{ secrets.ENV_DATABASE_URL }}" \
+              -e CLIENT_URL="${{ secrets.ENV_CLIENT_URL }}" \
+              -e JWT_SECRET="${{ secrets.ENV_JWT_SECRET }}" \
+              --name book-buddy-server \
+              saiabhiramjaini/book-buddy-server:latest
